@@ -7,39 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6059B8A16D6449F00FD1A48 /* stub.c in Sources */ = {isa = PBXBuildFile; fileRef = D6E6DD8F16D2D3F6000A86FD /* stub.c */; };
 		D609189816D57D060021F09D /* cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF853816B585920076EBAA /* cmdutils.c */; };
 		D609189A16D57D060021F09D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF854E16B587470076EBAA /* Cocoa.framework */; };
 		D60918A216D57D060021F09D /* FFmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD4C16D2CEEF000A86FD /* FFmpeg.framework */; };
 		D60918C916D57E5D0021F09D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF854E16B587470076EBAA /* Cocoa.framework */; };
 		D60918D016D57EC40021F09D /* ffmpeg_filter.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF7CB116B584670076EBAA /* ffmpeg_filter.c */; };
 		D60918D116D57EC40021F09D /* ffmpeg_opt.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF7CB216B584670076EBAA /* ffmpeg_opt.c */; };
-		D6BC56FA16D4FBC200529D3B /* stub.c in Sources */ = {isa = PBXBuildFile; fileRef = D6E6DD8F16D2D3F6000A86FD /* stub.c */; };
 		D6BC56FC16D4FBC200529D3B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF854E16B587470076EBAA /* Cocoa.framework */; };
 		D6BC56FD16D4FBC200529D3B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD7216D2D2F9000A86FD /* CoreFoundation.framework */; };
 		D6BC56FE16D4FBC200529D3B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD7416D2D2F9000A86FD /* CoreVideo.framework */; };
 		D6BC56FF16D4FBC200529D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD7616D2D2F9000A86FD /* Foundation.framework */; };
 		D6BC570016D4FBC200529D3B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF855216B587470076EBAA /* QuartzCore.framework */; };
 		D6BC570116D4FBC200529D3B /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF855416B587470076EBAA /* VideoDecodeAcceleration.framework */; };
-		D6BC570216D4FBC200529D3B /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF857416B588730076EBAA /* libbz2.dylib */; };
-		D6BC570316D4FBC200529D3B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF857816B588730076EBAA /* libz.dylib */; };
-		D6BC570416D4FBC200529D3B /* libfreetype.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD8216D2D30F000A86FD /* libfreetype.dylib */; };
-		D6BC570516D4FBC200529D3B /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF857016B5880B0076EBAA /* libSDL-1.2.0.dylib */; };
-		D6BC574116D5332600529D3B /* libfaac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574016D5332600529D3B /* libfaac.a */; };
-		D6BC574316D5332600529D3B /* libjack.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574216D5332600529D3B /* libjack.dylib */; };
-		D6BC574516D5332600529D3B /* libmodplug.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574416D5332600529D3B /* libmodplug.dylib */; };
-		D6BC574716D5332600529D3B /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574616D5332600529D3B /* libmp3lame.a */; };
-		D6BC574916D5332600529D3B /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574816D5332600529D3B /* libogg.a */; };
-		D6BC574B16D5332600529D3B /* libopenjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574A16D5332600529D3B /* libopenjpeg.a */; };
-		D6BC574D16D5332600529D3B /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574C16D5332600529D3B /* libopus.a */; };
-		D6BC574F16D5332600529D3B /* libschroedinger-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574E16D5332600529D3B /* libschroedinger-1.0.a */; };
-		D6BC575116D5332600529D3B /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575016D5332600529D3B /* libspeex.a */; };
-		D6BC575316D5332600529D3B /* libtheoradec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575216D5332600529D3B /* libtheoradec.a */; };
-		D6BC575516D5332600529D3B /* libtheoraenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575416D5332600529D3B /* libtheoraenc.a */; };
-		D6BC575716D5332600529D3B /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575616D5332600529D3B /* libvorbis.a */; };
-		D6BC575916D5332600529D3B /* libvorbisenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575816D5332600529D3B /* libvorbisenc.a */; };
-		D6BC575B16D5332600529D3B /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575A16D5332600529D3B /* libx264.a */; };
-		D6BC575D16D5332600529D3B /* libxvidcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575C16D5332600529D3B /* libxvidcore.a */; };
-		D6BC576116D5344700529D3B /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC576016D5344700529D3B /* libvpx.a */; };
 		D6BC582716D534E300529D3B /* ffplay.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF7CB516B584670076EBAA /* ffplay.c */; };
 		D6BC582816D534E300529D3B /* cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF853816B585920076EBAA /* cmdutils.c */; };
 		D6BC583216D534E300529D3B /* FFmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD4C16D2CEEF000A86FD /* FFmpeg.framework */; };
@@ -2421,26 +2401,6 @@
 				D6BC56FF16D4FBC200529D3B /* Foundation.framework in Frameworks */,
 				D6BC570016D4FBC200529D3B /* QuartzCore.framework in Frameworks */,
 				D6BC570116D4FBC200529D3B /* VideoDecodeAcceleration.framework in Frameworks */,
-				D6BC570216D4FBC200529D3B /* libbz2.dylib in Frameworks */,
-				D6BC570316D4FBC200529D3B /* libz.dylib in Frameworks */,
-				D6BC570416D4FBC200529D3B /* libfreetype.dylib in Frameworks */,
-				D6BC570516D4FBC200529D3B /* libSDL-1.2.0.dylib in Frameworks */,
-				D6BC574116D5332600529D3B /* libfaac.a in Frameworks */,
-				D6BC574316D5332600529D3B /* libjack.dylib in Frameworks */,
-				D6BC574516D5332600529D3B /* libmodplug.dylib in Frameworks */,
-				D6BC574716D5332600529D3B /* libmp3lame.a in Frameworks */,
-				D6BC574916D5332600529D3B /* libogg.a in Frameworks */,
-				D6BC574B16D5332600529D3B /* libopenjpeg.a in Frameworks */,
-				D6BC574D16D5332600529D3B /* libopus.a in Frameworks */,
-				D6BC574F16D5332600529D3B /* libschroedinger-1.0.a in Frameworks */,
-				D6BC575116D5332600529D3B /* libspeex.a in Frameworks */,
-				D6BC575316D5332600529D3B /* libtheoradec.a in Frameworks */,
-				D6BC575516D5332600529D3B /* libtheoraenc.a in Frameworks */,
-				D6BC575716D5332600529D3B /* libvorbis.a in Frameworks */,
-				D6BC575916D5332600529D3B /* libvorbisenc.a in Frameworks */,
-				D6BC575B16D5332600529D3B /* libx264.a in Frameworks */,
-				D6BC575D16D5332600529D3B /* libxvidcore.a in Frameworks */,
-				D6BC576116D5344700529D3B /* libvpx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5409,7 +5369,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# the master LinkFileLists are (re)created only when required, but $(LINK_FILE_LIST_normal_ARCH) is/are\n# regenerated on each rebuild. So we have to make sure they contain the appropriate information.\n\ncp -p ${DERIVED_FILE_DIR}/FFmpeg-master-i386.LinkFileList ${LINK_FILE_LIST_normal_i386} 2>&1\ncp -p ${DERIVED_FILE_DIR}/FFmpeg-master-x86_64.LinkFileList ${LINK_FILE_LIST_normal_x86_64} 2>&1\n";
+			shellScript = "# the master LinkFileLists are (re)created only when required, but $(LINK_FILE_LIST_normal_ARCH) is/are\n# regenerated on each rebuild. So we have to make sure they contain the appropriate information.\n\nPREFIX=\"/opt/local/lib\"\n\ncp -p ${DERIVED_FILE_DIR}/FFmpeg-master-i386.LinkFileList ${LINK_FILE_LIST_normal_i386} 2>&1\ncp -p ${DERIVED_FILE_DIR}/FFmpeg-master-x86_64.LinkFileList ${LINK_FILE_LIST_normal_x86_64} 2>&1\n\n# add the MacPort libraries, as much as possible the static ones to make the framework as standalone as possible:\n# NB: liborc only gets installed with a version-specific archive...\nfor l in libbz2 libz libfreetype libfaac libjack libmodplug libmp3lame libogg libopenjpeg libopus libschroedinger-1.0 liborc-0.4 libspeex libtheoradec libtheoraenc libvorbis libvorbisenc libx264 libxvidcore libvpx ;do\n\tif [ -r \"${PREFIX}/${l}.a\" ] ;then\n\t\techo \"${PREFIX}/${l}.a\" | tee -a ${LINK_FILE_LIST_normal_i386} ${LINK_FILE_LIST_normal_x86_64}\n\telse\n\t\techo \"Check that ${l}.dylib is given with -weak_library ${PREFIX}/${l}.dylib in the 'Other Linker Flags'!\"\n#\t\techo \"${PREFIX}/${l}.dylib\" | tee -a ${LINK_FILE_LIST_normal_i386} ${LINK_FILE_LIST_normal_x86_64}\n\tfi\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 		D6BC588516D53A7700529D3B /* Copy FW Headers */ = {
@@ -5445,7 +5405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6BC56FA16D4FBC200529D3B /* stub.c in Sources */,
+				D6059B8A16D6449F00FD1A48 /* stub.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5581,7 +5541,7 @@
 					"_THREAD_SAFE\n",
 				);
 				GCC_STRICT_ALIASING = YES;
-				GCC_VERSION = 4.7;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					.,
 					..,
@@ -5625,7 +5585,7 @@
 					"_THREAD_SAFE\n",
 				);
 				GCC_STRICT_ALIASING = YES;
-				GCC_VERSION = org.macports.compilers.gcc.4.7;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					.,
 					..,
@@ -5677,6 +5637,12 @@
 				OTHER_LDFLAGS = (
 					"-read_only_relocs",
 					suppress,
+					"-weak_library",
+					/opt/local/lib/libjack.dylib,
+					"-weak_library",
+					/opt/local/lib/libmodplug.dylib,
+					"-weak_library",
+					/opt/local/lib/libSDL.dylib,
 				);
 				PREBINDING = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -5714,6 +5680,12 @@
 				OTHER_LDFLAGS = (
 					"-read_only_relocs",
 					suppress,
+					"-weak_library",
+					/opt/local/lib/libjack.dylib,
+					"-weak_library",
+					/opt/local/lib/libmodplug.dylib,
+					"-weak_library",
+					/opt/local/lib/libSDL.dylib,
 				);
 				PREBINDING = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -5828,6 +5800,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = NEEDS_STUB;
 				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					..,
@@ -5874,6 +5847,7 @@
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = NEEDS_STUB;
 				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					..,
