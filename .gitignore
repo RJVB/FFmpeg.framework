@@ -88,3 +88,4 @@ ffserver
 ffserver.d
 ffserver.o
 ffserver_g
+config.log
