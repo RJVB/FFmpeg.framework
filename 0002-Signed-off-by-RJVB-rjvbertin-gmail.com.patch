@@ -1,0 +1,123 @@
+From 52a17dbd8106945b9c515cbe72726c46227e4515 Mon Sep 17 00:00:00 2001
+From: RJVB <rjvbertin@gmail.com>
+Date: Wed, 6 Mar 2013 15:21:33 +0100
+Subject: [PATCH 2/2] Signed-off-by: RJVB <rjvbertin@gmail.com>
+
+modifications to timing.[ch] as suggested by the patcheck tool.
+---
+ timing.c | 21 ++++++++++-----------
+ timing.h |  6 +++---
+ 2 files changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/timing.c b/timing.c
+index 449dfc7..73c98f1 100755
+--- a/timing.c
++++ b/timing.c
+@@ -1,4 +1,4 @@
+-/*!
++/**
+  *  @file QTImage2Mov/source/timing.c
+  *
+  *  (C) RenE J.V. Bertin on 20080926.
+@@ -27,7 +27,7 @@
+ static mach_timebase_info_data_t sTimebaseInfo;
+ static double calibrator= 0;
+ 
+-void init_hr_time()
++void init_hr_time(void)
+ {
+     if( !calibrator ){
+         mach_timebase_info(&sTimebaseInfo);
+@@ -36,7 +36,7 @@ void init_hr_time()
+     }
+ }
+ 
+-double get_hr_time()
++double get_hr_time(void)
+ {
+     return mach_absolute_time() * calibrator;
+ }
+@@ -84,8 +84,7 @@ double get_hr_time()
+     static __inline__ tsc_time read_tsc()
+     { tsc_time ret;
+ 
+-        __asm__ __volatile__("rdtsc": "=A" (ret)); 
+-        /* no input, nothing else clobbered */
++        __asm__ __volatile__("rdtsc": "=A" (ret));
+         return ret;
+     }
+ 
+@@ -110,7 +109,7 @@ double get_hr_time()
+ 
+ #   endif
+ 
+-void init_hr_time()
++void init_hr_time(void)
+ {
+ #if defined(CLOCK_MONOTONIC) || defined(CLOCK_REALTIME)
+     // just for kicks, probably not necessary:
+@@ -118,7 +117,7 @@ void init_hr_time()
+ #endif
+ }
+ 
+-double get_hr_time()
++double get_hr_time(void)
+ {
+     return( gettime() );
+ }
+@@ -131,7 +130,7 @@ double get_hr_time()
+ static LARGE_INTEGER lpFrequency;
+ static double calibrator= 0;
+ 
+-void init_hr_time()
++void init_hr_time(void)
+ {
+     if( !calibrator ){
+         if( !QueryPerformanceFrequency(&lpFrequency) ){
+@@ -144,7 +143,7 @@ void init_hr_time()
+ }
+ 
+ 
+-double get_hr_time()
++double get_hr_time(void)
+ { LARGE_INTEGER count;
+     
+     QueryPerformanceCounter(&count);
+@@ -161,11 +160,11 @@ double get_hr_time()
+         time= ES_tv.tv_sec + ES_tv.tv_usec* 1e-6; \
+     }
+ 
+-void init_hr_time()
++void init_hr_time(void)
+ {
+ }
+ 
+-double get_hr_time()
++double get_hr_time(void)
+ { double time;
+     gettime(time);
+     return( time );
+diff --git a/timing.h b/timing.h
+index 2157b68..8c761b2 100755
+--- a/timing.h
++++ b/timing.h
+@@ -1,4 +1,4 @@
+-/*!
++/**
+  *  @file QTImage2Mov/source/timing.h
+  *
+  *  (C) RenE J.V. Bertin on 20080926.
+@@ -10,8 +10,8 @@ extern "C"
+ {
+ #endif
+ 
+-extern void init_hr_time();
+-extern double get_hr_time();
++extern void init_hr_time(void);
++extern double get_hr_time(void);
+ 
+ #ifdef __cplusplus
+ }
+-- 
+1.8.1.3
+

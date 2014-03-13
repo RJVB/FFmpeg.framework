@@ -1,0 +1,533 @@
+From 901c76813b92008486ec6c229a8b43630171d043 Mon Sep 17 00:00:00 2001
+From: RJVB <rjvbertin@gmail.com>
+Date: Wed, 6 Mar 2013 15:05:08 +0100
+Subject: [PATCH 1/2] Signed-off-by: RJVB <rjvbertin@gmail.com>
+
+Adds a -benchmark_most option to ffmpeg which collects benchmark timings much as -benchmark_all does, but only presents a breakdown of the averages when all else is done. It determines the average user, system and total (real) execution times, and estimates the average CPU percentage.
+---
+ ffmpeg.c     | 153 +++++++++++++++++++++++++++++++++++++++++++++-------
+ ffmpeg.h     |   1 +
+ ffmpeg_opt.c |   5 +-
+ timing.c     | 174 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ timing.h     |  18 +++++++
+ 5 files changed, 331 insertions(+), 20 deletions(-)
+ create mode 100755 timing.c
+ create mode 100755 timing.h
+
+diff --git a/ffmpeg.c b/ffmpeg.c
+index 229a896..2555d11 100644
+--- a/ffmpeg.c
++++ b/ffmpeg.c
+@@ -118,9 +118,16 @@ const char *const forced_keyframes_const_names[] = {
+     NULL
+ };
+ 
++//RJVB
++typedef struct BenchTimes {
++    double user_time, system_time, total_time;
++    double user_cum_time, system_cum_time, total_cum_time;
++    size_t numSamples, numObs;
++} BenchTimes;
++BenchTimes flush_bench, vid_dec_bench, aud_dec_bench, vid_enc_bench, aud_enc_bench, ffmpeg_bench;
++
+ static void do_video_stats(OutputStream *ost, int frame_size);
+-static int64_t getutime(void);
+-static int64_t getmaxrss(void);
++static int64_t getutime(BenchTimes *bin);
+ 
+ static int run_as_daemon  = 0;
+ static int64_t video_size = 0;
+@@ -405,6 +412,8 @@ static int decode_interrupt_cb(void *ctx)
+ 
+ const AVIOInterruptCB int_cb = { decode_interrupt_cb, NULL };
+ 
++static int64_t getmaxrss(void);
++
+ static void exit_program(void)
+ {
+     int i, j;
+@@ -505,10 +514,10 @@ static void abort_codec_experimental(AVCodec *c, int encoder)
+     exit(1);
+ }
+ 
+-static void update_benchmark(const char *fmt, ...)
++static void update_benchmark( BenchTimes *bin, const char *fmt, ...)
+ {
+     if (do_benchmark_all) {
+-        int64_t t = getutime();
++        int64_t t = getutime(NULL);
+         va_list va;
+         char buf[1024];
+ 
+@@ -520,6 +529,54 @@ static void update_benchmark(const char *fmt, ...)
+         }
+         current_time = t;
+     }
++    else if( do_benchmark_most && bin ){
++        if( fmt ){
++          double uT0 = bin->user_time, sT0 = bin->system_time, tT0 = bin->total_time;
++            // collect data
++            getutime(bin);
++            bin->user_cum_time += bin->user_time - uT0;
++            bin->system_cum_time += bin->system_time - sT0;
++            bin->total_cum_time += bin->total_time - tT0;
++            bin->numSamples += 1;
++            bin->numObs += 1;
++        }
++        else{
++            // mark start of benchmarking interval
++            getutime(bin);
++        }
++    }
++}
++
++// RJVB
++static void print_bench_bin( FILE *fp, BenchTimes *bin, const char *header, BenchTimes *cum_bin )
++{ double cpu;
++    if( bin && bin->numSamples ){
++        if( cum_bin && cum_bin == bin ){
++          char tots[32];
++            bin->user_cum_time /= bin->numSamples;
++            bin->system_cum_time /= bin->numSamples;
++            bin->total_cum_time /= bin->numSamples;
++            cpu = (bin->user_cum_time + bin->system_cum_time) * 100.0 / bin->total_cum_time;
++            snprintf( tots, sizeof(tots), "%g/%lu", (double) bin->numSamples, bin->numObs );
++            fprintf( fp, "%s\t%10s\t%10gs\t%10gs\t%10gs\t%10g%%\n", header,
++                    tots, bin->user_cum_time, bin->system_cum_time, bin->total_cum_time,
++                    cpu );
++            cum_bin = NULL;
++        }
++        else{
++            cpu = (bin->user_cum_time + bin->system_cum_time) * 100.0 / bin->total_cum_time;
++            fprintf( fp, "%s\t%10ld\t%10gs\t%10gs\t%10gs\t%10g%%\n", header,
++                    bin->numSamples, bin->user_cum_time, bin->system_cum_time, bin->total_cum_time,
++                    cpu );
++        }
++        if( cum_bin ){
++            cum_bin->numSamples += bin->numSamples;
++            cum_bin->user_cum_time += bin->user_cum_time * bin->numSamples;
++            cum_bin->system_cum_time += bin->system_cum_time * bin->numSamples;
++            cum_bin->total_cum_time += bin->total_cum_time * bin->numSamples;
++            cum_bin->numObs += 1;
++        }
++    }
+ }
+ 
+ static void write_frame(AVFormatContext *s, AVPacket *pkt, OutputStream *ost)
+@@ -652,12 +709,12 @@ static void do_audio_out(AVFormatContext *s, OutputStream *ost,
+     ost->sync_opts = frame->pts + frame->nb_samples;
+ 
+     av_assert0(pkt.size || !pkt.data);
+-    update_benchmark(NULL);
++    update_benchmark(&aud_enc_bench, NULL);
+     if (avcodec_encode_audio2(enc, &pkt, frame, &got_packet) < 0) {
+         av_log(NULL, AV_LOG_FATAL, "Audio encoding failed (avcodec_encode_audio2)\n");
+         exit(1);
+     }
+-    update_benchmark("encode_audio %d.%d", ost->file_index, ost->index);
++    update_benchmark(&aud_enc_bench, "encode_audio %d.%d", ost->file_index, ost->index);
+ 
+     if (got_packet) {
+         if (pkt.pts != AV_NOPTS_VALUE)
+@@ -950,9 +1007,9 @@ static void do_video_out(AVFormatContext *s,
+             av_log(NULL, AV_LOG_DEBUG, "Forced keyframe at time %f\n", pts_time);
+         }
+ 
+-        update_benchmark(NULL);
++        update_benchmark(&vid_enc_bench, NULL);
+         ret = avcodec_encode_video2(enc, &pkt, &big_picture, &got_packet);
+-        update_benchmark("encode_video %d.%d", ost->file_index, ost->index);
++        update_benchmark(&vid_enc_bench, "encode_video %d.%d", ost->file_index, ost->index);
+         if (ret < 0) {
+             av_log(NULL, AV_LOG_FATAL, "Video encoding failed\n");
+             exit(1);
+@@ -1351,9 +1408,9 @@ static void flush_encoders(void)
+                 pkt.data = NULL;
+                 pkt.size = 0;
+ 
+-                update_benchmark(NULL);
++                update_benchmark(&flush_bench, NULL);
+                 ret = encode(enc, &pkt, NULL, &got_packet);
+-                update_benchmark("flush %s %d.%d", desc, ost->file_index, ost->index);
++                update_benchmark(&flush_bench, "flush %s %d.%d", desc, ost->file_index, ost->index);
+                 if (ret < 0) {
+                     av_log(NULL, AV_LOG_FATAL, "%s encoding failed\n", desc);
+                     exit(1);
+@@ -1523,9 +1580,9 @@ static int decode_audio(InputStream *ist, AVPacket *pkt, int *got_output)
+         return AVERROR(ENOMEM);
+     decoded_frame = ist->decoded_frame;
+ 
+-    update_benchmark(NULL);
++    update_benchmark(&aud_dec_bench, NULL);
+     ret = avcodec_decode_audio4(avctx, decoded_frame, got_output, pkt);
+-    update_benchmark("decode_audio %d.%d", ist->file_index, ist->st->index);
++    update_benchmark(&aud_dec_bench, "decode_audio %d.%d", ist->file_index, ist->st->index);
+ 
+     if (ret >= 0 && avctx->sample_rate <= 0) {
+         av_log(avctx, AV_LOG_ERROR, "Sample rate %d invalid\n", avctx->sample_rate);
+@@ -1645,10 +1702,10 @@ static int decode_video(InputStream *ist, AVPacket *pkt, int *got_output)
+     decoded_frame = ist->decoded_frame;
+     pkt->dts  = av_rescale_q(ist->dts, AV_TIME_BASE_Q, ist->st->time_base);
+ 
+-    update_benchmark(NULL);
++    update_benchmark(&vid_dec_bench, NULL);
+     ret = avcodec_decode_video2(ist->st->codec,
+                                 decoded_frame, got_output, pkt);
+-    update_benchmark("decode_video %d.%d", ist->file_index, ist->st->index);
++    update_benchmark(&vid_dec_bench, "decode_video %d.%d", ist->file_index, ist->st->index);
+     if (!*got_output || ret < 0) {
+         if (!pkt->size) {
+             for (i = 0; i < ist->nb_filters; i++)
+@@ -3232,19 +3289,33 @@ static int transcode(void)
+     return ret;
+ }
+ 
++#include "timing.c"
+ 
+-static int64_t getutime(void)
++static int64_t getutime(BenchTimes *bin)
+ {
+ #if HAVE_GETRUSAGE
+     struct rusage rusage;
+ 
+     getrusage(RUSAGE_SELF, &rusage);
++    if( bin ){
++        bin->user_time = rusage.ru_utime.tv_sec + rusage.ru_utime.tv_usec * 1e-6;
++        bin->system_time = rusage.ru_stime.tv_sec + rusage.ru_stime.tv_usec * 1e-6;
++        bin->total_time = get_hr_time();
++    }
+     return (rusage.ru_utime.tv_sec * 1000000LL) + rusage.ru_utime.tv_usec;
+ #elif HAVE_GETPROCESSTIMES
+     HANDLE proc;
+     FILETIME c, e, k, u;
+     proc = GetCurrentProcess();
+     GetProcessTimes(proc, &c, &e, &k, &u);
++    if( bin ){
++      ULARGE_INTEGER uT, kT;
++        uT.LowPart = u.dwLowDateTime, uT.HighPart = u.dwHighDateTime;
++        kT.LowPart = k.dwLowDateTime, kT.HighPart = k.dwHighDateTime;
++        bin->user_time = uT.QuadPart * 100e-9;
++        bin->system_time = kT.QuadPart * 100e-9;
++        bin->total_time = get_hr_time();
++    }
+     return ((int64_t) u.dwHighDateTime << 32 | u.dwLowDateTime) / 10;
+ #else
+     return av_gettime();
+@@ -3280,6 +3351,19 @@ int main(int argc, char **argv)
+ 
+     atexit(exit_program);
+ 
++//RJVB
++#if HAVE_GETRUSAGE || HAVE_GETPROCESSTIMES
++    init_hr_time();
++    memset( &ffmpeg_bench, 0, sizeof(BenchTimes) );
++    { int dbm = do_benchmark_most;
++        do_benchmark_most = 1;
++        update_benchmark( &ffmpeg_bench, NULL );
++        do_benchmark_most = dbm;
++    }
++#endif
++
++    // initialise (zero) benchmarking structures
++    memset( &flush_bench, 0, sizeof(BenchTimes) );
+     setvbuf(stderr,NULL,_IONBF,0); /* win32 runtime needs this */
+ 
+     av_log_set_flags(AV_LOG_SKIP_REPEATED);
+@@ -3321,17 +3405,48 @@ int main(int argc, char **argv)
+         exit(1);
+     }
+ 
++    // RJVB
++    if( do_benchmark_most ){
++#if !HAVE_GETRUSAGE && !HAVE_GETPROCESSTIMES
++        av_log( NULL, AV_LOG_WARNING, "Cannot provide 'most' benchmark data, resorting to basic benchmarking.\n" );
++#else
++        // initialise (zero) benchmarking structures
++        memset( &flush_bench, 0, sizeof(BenchTimes) );
++        memset( &vid_dec_bench, 0, sizeof(BenchTimes) );
++        memset( &aud_dec_bench, 0, sizeof(BenchTimes) );
++        memset( &vid_enc_bench, 0, sizeof(BenchTimes) );
++        memset( &aud_enc_bench, 0, sizeof(BenchTimes) );
++#endif
++    }
++
+ //     if (nb_input_files == 0) {
+ //         av_log(NULL, AV_LOG_FATAL, "At least one input file must be specified\n");
+ //         exit(1);
+ //     }
+ 
+-    current_time = ti = getutime();
++    current_time = ti = getutime(NULL);
+     if (transcode() < 0)
+         exit(1);
+-    ti = getutime() - ti;
+-    if (do_benchmark) {
+-        printf("bench: utime=%0.3fs\n", ti / 1000000.0);
++    ti = getutime(NULL) - ti;
++    if( do_benchmark_most ){
++      BenchTimes cum_bin;
++        update_benchmark( &ffmpeg_bench, "Done" );
++        fprintf( stdout, "Detailed benchmark results:\n" );
++        fprintf( stdout, "               \t%10s\t%10s\t%10s\t%10s\t%10s\n", "samples", "user t", "kernel t", "real t", "CPU %" );
++        memset( &cum_bin, 0, sizeof(BenchTimes) );
++        print_bench_bin( stdout, &vid_dec_bench, "Video decode  :", &cum_bin );
++        print_bench_bin( stdout, &aud_dec_bench, "Audio decode  :", &cum_bin );
++        print_bench_bin( stdout, &vid_enc_bench, "Video encode  :", &cum_bin );
++//        print_bench_bin( stdout, &cum_bin,       "Runny totals  :", NULL );
++        print_bench_bin( stdout, &aud_enc_bench, "Audio encode  :", &cum_bin );
++        print_bench_bin( stdout, &flush_bench,   "Failed loops  :", &cum_bin );
++        print_bench_bin( stdout, &cum_bin,       "Weighed totals:", &cum_bin );
++        fprintf( stdout, "Overall execution timing:\n" );
++        print_bench_bin( stdout, &ffmpeg_bench,  "              :", NULL );
++    }
++    else if (do_benchmark) {
++        int maxrss = getmaxrss() / 1024;
++        printf("bench: utime=%0.3fs maxrss=%ikB\n", ti / 1000000.0, maxrss);
+     }
+ 
+     exit(received_nb_signals ? 255 : 0);
+diff --git a/ffmpeg.h b/ffmpeg.h
+index d7046fd..fd93395 100644
+--- a/ffmpeg.h
++++ b/ffmpeg.h
+@@ -395,6 +395,7 @@ extern int audio_volume;
+ extern int audio_sync_method;
+ extern int video_sync_method;
+ extern int do_benchmark;
++extern int do_benchmark_most;
+ extern int do_benchmark_all;
+ extern int do_deinterlace;
+ extern int do_hex_dump;
+diff --git a/ffmpeg_opt.c b/ffmpeg_opt.c
+index 2d890cf..7f613b5 100644
+--- a/ffmpeg_opt.c
++++ b/ffmpeg_opt.c
+@@ -74,6 +74,7 @@ int audio_sync_method = 0;
+ int video_sync_method = VSYNC_AUTO;
+ int do_deinterlace    = 0;
+ int do_benchmark      = 0;
++int do_benchmark_most = 0;
+ int do_benchmark_all  = 0;
+ int do_hex_dump       = 0;
+ int do_pkt_dump       = 0;
+@@ -2427,8 +2428,10 @@ const OptionDef options[] = {
+         "set the number of data frames to record", "number" },
+     { "benchmark",      OPT_BOOL | OPT_EXPERT,                       { &do_benchmark },
+         "add timings for benchmarking" },
++    { "benchmark_most",  OPT_BOOL | OPT_EXPERT,                      { &do_benchmark_most },
++      "add timings for each task and present an overview at the end" },
+     { "benchmark_all",  OPT_BOOL | OPT_EXPERT,                       { &do_benchmark_all },
+-      "add timings for each task" },
++      "add and display timings for each task" },
+     { "progress",       HAS_ARG | OPT_EXPERT,                        { .func_arg = opt_progress },
+       "write program-readable progress information", "url" },
+     { "stdin",          OPT_BOOL | OPT_EXPERT,                       { &stdin_interaction },
+diff --git a/timing.c b/timing.c
+new file mode 100755
+index 0000000..449dfc7
+--- /dev/null
++++ b/timing.c
+@@ -0,0 +1,174 @@
++/*!
++ *  @file QTImage2Mov/source/timing.c
++ *
++ *  (C) RenE J.V. Bertin on 20080926.
++ *
++ */
++
++
++#ifdef __MACH__
++#   include <mach/mach.h>
++#   include <mach/mach_time.h>
++#   include <mach/mach_init.h>
++#   include <sys/sysctl.h>
++#endif
++#if ! defined(_WINDOWS) && !defined(WIN32) && !defined(_MSC_VER)
++#   include <time.h>
++#   include <sys/time.h>
++#   include <unistd.h>
++#endif
++#include <errno.h>
++
++#include "timing.h"
++
++#if defined(__MACH__)
++#pragma mark ---MacOSX---
++
++static mach_timebase_info_data_t sTimebaseInfo;
++static double calibrator= 0;
++
++void init_hr_time()
++{
++    if( !calibrator ){
++        mach_timebase_info(&sTimebaseInfo);
++          /* go from absolute time units to seconds (the timebase is calibrated in nanoseconds): */
++        calibrator= 1e-9 * sTimebaseInfo.numer / sTimebaseInfo.denom;
++    }
++}
++
++double get_hr_time()
++{
++    return mach_absolute_time() * calibrator;
++}
++
++#elif defined(linux)
++#pragma mark ---linux---
++
++#   if defined(CLOCK_MONOTONIC)
++
++    static inline double gettime()
++    { struct timespec hrt;
++        clock_gettime( CLOCK_MONOTONIC, &hrt );
++        return hrt.tv_sec + hrt.tv_nsec * 1e-9;
++    }
++
++    static inline double clock_get_res()
++    { struct timespec hrt;
++        clock_getres( CLOCK_MONOTONIC, &hrt );
++        return hrt.tv_sec + hrt.tv_nsec * 1e-9;
++    }
++
++#   elif defined(CLOCK_REALTIME)
++
++    static inline double gettime()
++    { struct timespec hrt;
++        clock_gettime( CLOCK_REALTIME, &hrt );
++        return hrt.tv_sec + hrt.tv_nsec * 1e-9;
++    }
++
++    static inline double clock_get_res()
++    { struct timespec hrt;
++        clock_getres( CLOCK_REALTIME, &hrt );
++        return hrt.tv_sec + hrt.tv_nsec * 1e-9;
++    }
++
++
++#   elif defined(CPUCLOCK_CYCLES_PER_SEC)
++
++    typedef unsigned long long tsc_time;
++
++    typedef struct tsc_timers{
++        tsc_time t1, t2;
++    } tsc_timers;
++
++    static __inline__ tsc_time read_tsc()
++    { tsc_time ret;
++
++        __asm__ __volatile__("rdtsc": "=A" (ret)); 
++        /* no input, nothing else clobbered */
++        return ret;
++    }
++
++#   define tsc_get_time(t)  ((*(tsc_time*)t)=read_tsc())
++#   define tsc_time_to_sec(t) (((double) (*t)) / CPUCLOCK_CYCLES_PER_SEC)
++
++    static inline gettime()
++#       ifdef CPUCLOCK_CYCLES_PER_SEC
++    { tsc_time t;
++        tsc_get_time(&t);
++        return tsc_time_to_sec( &t );
++    }
++#       else
++          /* Use gettimeofday():    */
++    { struct timezone tzp;
++      struct timeval ES_tv;
++
++        gettimeofday( &ES_tv, &tzp );
++        return ES_tv.tv_sec + ES_tv.tv_usec* 1e-6;
++    }
++#       endif
++
++#   endif
++
++void init_hr_time()
++{
++#if defined(CLOCK_MONOTONIC) || defined(CLOCK_REALTIME)
++    // just for kicks, probably not necessary:
++    clock_get_res();
++#endif
++}
++
++double get_hr_time()
++{
++    return( gettime() );
++}
++
++#elif defined(_WINDOWS) || defined(WIN32) || defined(_MSC_VER)
++#pragma mark ---win32---
++
++#include <windows.h>
++
++static LARGE_INTEGER lpFrequency;
++static double calibrator= 0;
++
++void init_hr_time()
++{
++    if( !calibrator ){
++        if( !QueryPerformanceFrequency(&lpFrequency) ){
++            calibrator= 0;
++        }
++        else{
++            calibrator= 1.0 / ((double) lpFrequency.QuadPart);
++        }
++    }
++}
++
++
++double get_hr_time()
++{ LARGE_INTEGER count;
++    
++    QueryPerformanceCounter(&count);
++    return count.QuadPart * calibrator;
++}
++
++#else
++#pragma mark ---using gettimeofday---
++
++      /* Use gettimeofday():    */
++#define gettime(time)   { struct timezone tzp; \
++      struct timeval ES_tv; \
++        gettimeofday( &ES_tv, &tzp ); \
++        time= ES_tv.tv_sec + ES_tv.tv_usec* 1e-6; \
++    }
++
++void init_hr_time()
++{
++}
++
++double get_hr_time()
++{ double time;
++    gettime(time);
++    return( time );
++}
++
++#endif
+\ No newline at end of file
+diff --git a/timing.h b/timing.h
+new file mode 100755
+index 0000000..2157b68
+--- /dev/null
++++ b/timing.h
+@@ -0,0 +1,18 @@
++/*!
++ *  @file QTImage2Mov/source/timing.h
++ *
++ *  (C) RenE J.V. Bertin on 20080926.
++ *
++ */
++
++#ifdef __cplusplus
++extern "C"
++{
++#endif
++
++extern void init_hr_time();
++extern double get_hr_time();
++
++#ifdef __cplusplus
++}
++#endif
+\ No newline at end of file
+-- 
+1.8.1.3
+

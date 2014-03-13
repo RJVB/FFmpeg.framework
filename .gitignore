@@ -96,3 +96,4 @@ wconfigure.env.O0vect
 wconfigure.env.vect
 build_benchs.sh
 wconfigure.env.O0
+fate_config_i386
