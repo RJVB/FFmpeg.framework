@@ -14,6 +14,22 @@
 		D60918C916D57E5D0021F09D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF854E16B587470076EBAA /* Cocoa.framework */; };
 		D60918D016D57EC40021F09D /* ffmpeg_filter.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF7CB116B584670076EBAA /* ffmpeg_filter.c */; };
 		D60918D116D57EC40021F09D /* ffmpeg_opt.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EF7CB216B584670076EBAA /* ffmpeg_opt.c */; };
+		D62B413318D610E4002AB1F4 /* libass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B413218D610E4002AB1F4 /* libass.a */; };
+		D62B413518D610E4002AB1F4 /* libbluray.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B413418D610E4002AB1F4 /* libbluray.a */; };
+		D62B413A18D610E4002AB1F4 /* libfdk-aac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B413918D610E4002AB1F4 /* libfdk-aac.a */; };
+		D62B413C18D610E4002AB1F4 /* libfontconfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B413B18D610E4002AB1F4 /* libfontconfig.a */; };
+		D62B413F18D610E4002AB1F4 /* libgmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B413E18D610E4002AB1F4 /* libgmp.a */; };
+		D62B414118D610E4002AB1F4 /* libgnutls.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B414018D610E4002AB1F4 /* libgnutls.dylib */; };
+		D62B414318D610E4002AB1F4 /* libhogweed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B414218D610E4002AB1F4 /* libhogweed.a */; };
+		D62B414518D610E4002AB1F4 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B414418D610E4002AB1F4 /* libiconv.a */; };
+		D62B414618D610E5002AB1F4 /* libjack.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574216D5332600529D3B /* libjack.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D62B414718D610E5002AB1F4 /* libmodplug.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574416D5332600529D3B /* libmodplug.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D62B414A18D610E5002AB1F4 /* libnettle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B414918D610E5002AB1F4 /* libnettle.a */; };
+		D62B414C18D610E5002AB1F4 /* libopenjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC574A16D5332600529D3B /* libopenjpeg.a */; };
+		D62B414F18D610E5002AB1F4 /* libSDL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DE3016D2E56D000A86FD /* libSDL.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D62B415618D610E5002AB1F4 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BC575A16D5332600529D3B /* libx264.a */; };
+		D62B415E18D61181002AB1F4 /* libpng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B415D18D61181002AB1F4 /* libpng.dylib */; };
+		D62B416A18D61291002AB1F4 /* libharfbuzz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B416918D61291002AB1F4 /* libharfbuzz.dylib */; };
 		D6BC56FC16D4FBC200529D3B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6EF854E16B587470076EBAA /* Cocoa.framework */; };
 		D6BC56FD16D4FBC200529D3B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD7216D2D2F9000A86FD /* CoreFoundation.framework */; };
 		D6BC56FE16D4FBC200529D3B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E6DD7416D2D2F9000A86FD /* CoreVideo.framework */; };
@@ -94,6 +110,19 @@
 
 /* Begin PBXFileReference section */
 		D60918A816D57D060021F09D /* ffmpeg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ffmpeg; sourceTree = BUILT_PRODUCTS_DIR; };
+		D62B413218D610E4002AB1F4 /* libass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libass.a; path = /Volumes/Debian/MacPorts/lib/libass.a; sourceTree = "<absolute>"; };
+		D62B413418D610E4002AB1F4 /* libbluray.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbluray.a; path = /Volumes/Debian/MacPorts/lib/libbluray.a; sourceTree = "<absolute>"; };
+		D62B413618D610E4002AB1F4 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = /Volumes/Debian/MacPorts/lib/libbz2.dylib; sourceTree = "<absolute>"; };
+		D62B413918D610E4002AB1F4 /* libfdk-aac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libfdk-aac.a"; path = "/Volumes/Debian/MacPorts/lib/libfdk-aac.a"; sourceTree = "<absolute>"; };
+		D62B413B18D610E4002AB1F4 /* libfontconfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfontconfig.a; path = /Volumes/Debian/MacPorts/lib/libfontconfig.a; sourceTree = "<absolute>"; };
+		D62B413E18D610E4002AB1F4 /* libgmp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmp.a; path = /Volumes/Debian/MacPorts/lib/libgmp.a; sourceTree = "<absolute>"; };
+		D62B414018D610E4002AB1F4 /* libgnutls.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgnutls.dylib; path = /Volumes/Debian/MacPorts/lib/libgnutls.dylib; sourceTree = "<absolute>"; };
+		D62B414218D610E4002AB1F4 /* libhogweed.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhogweed.a; path = /Volumes/Debian/MacPorts/lib/libhogweed.a; sourceTree = "<absolute>"; };
+		D62B414418D610E4002AB1F4 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = /Volumes/Debian/MacPorts/lib/libiconv.a; sourceTree = "<absolute>"; };
+		D62B414918D610E5002AB1F4 /* libnettle.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libnettle.a; path = /Volumes/Debian/MacPorts/lib/libnettle.a; sourceTree = "<absolute>"; };
+		D62B415818D610E5002AB1F4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /Volumes/Debian/MacPorts/lib/libz.dylib; sourceTree = "<absolute>"; };
+		D62B415D18D61181002AB1F4 /* libpng.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng.dylib; path = /Volumes/Debian/MacPorts/lib/libpng.dylib; sourceTree = "<absolute>"; };
+		D62B416918D61291002AB1F4 /* libharfbuzz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libharfbuzz.dylib; path = /Volumes/Debian/MacPorts/lib/libharfbuzz.dylib; sourceTree = "<absolute>"; };
 		D6BC570916D4FBC200529D3B /* FFmpeg.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FFmpeg.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6BC574016D5332600529D3B /* libfaac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfaac.a; path = /Volumes/Debian/MacPorts/lib/libfaac.a; sourceTree = "<absolute>"; };
 		D6BC574216D5332600529D3B /* libjack.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjack.dylib; path = /Volumes/Debian/MacPorts/lib/libjack.dylib; sourceTree = "<absolute>"; };
@@ -2401,6 +2430,22 @@
 				D6BC56FF16D4FBC200529D3B /* Foundation.framework in Frameworks */,
 				D6BC570016D4FBC200529D3B /* QuartzCore.framework in Frameworks */,
 				D6BC570116D4FBC200529D3B /* VideoDecodeAcceleration.framework in Frameworks */,
+				D62B413318D610E4002AB1F4 /* libass.a in Frameworks */,
+				D62B413518D610E4002AB1F4 /* libbluray.a in Frameworks */,
+				D62B413A18D610E4002AB1F4 /* libfdk-aac.a in Frameworks */,
+				D62B413C18D610E4002AB1F4 /* libfontconfig.a in Frameworks */,
+				D62B413F18D610E4002AB1F4 /* libgmp.a in Frameworks */,
+				D62B414118D610E4002AB1F4 /* libgnutls.dylib in Frameworks */,
+				D62B414318D610E4002AB1F4 /* libhogweed.a in Frameworks */,
+				D62B414518D610E4002AB1F4 /* libiconv.a in Frameworks */,
+				D62B414618D610E5002AB1F4 /* libjack.dylib in Frameworks */,
+				D62B414718D610E5002AB1F4 /* libmodplug.dylib in Frameworks */,
+				D62B414A18D610E5002AB1F4 /* libnettle.a in Frameworks */,
+				D62B414C18D610E5002AB1F4 /* libopenjpeg.a in Frameworks */,
+				D62B414F18D610E5002AB1F4 /* libSDL.dylib in Frameworks */,
+				D62B415618D610E5002AB1F4 /* libx264.a in Frameworks */,
+				D62B415E18D61181002AB1F4 /* libpng.dylib in Frameworks */,
+				D62B416A18D61291002AB1F4 /* libharfbuzz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5083,6 +5128,19 @@
 		D6EF857B16B5894D0076EBAA /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D62B413218D610E4002AB1F4 /* libass.a */,
+				D62B413418D610E4002AB1F4 /* libbluray.a */,
+				D62B413618D610E4002AB1F4 /* libbz2.dylib */,
+				D62B413918D610E4002AB1F4 /* libfdk-aac.a */,
+				D62B413B18D610E4002AB1F4 /* libfontconfig.a */,
+				D62B413E18D610E4002AB1F4 /* libgmp.a */,
+				D62B414018D610E4002AB1F4 /* libgnutls.dylib */,
+				D62B414218D610E4002AB1F4 /* libhogweed.a */,
+				D62B414418D610E4002AB1F4 /* libiconv.a */,
+				D62B414918D610E5002AB1F4 /* libnettle.a */,
+				D62B415818D610E5002AB1F4 /* libz.dylib */,
+				D62B415D18D61181002AB1F4 /* libpng.dylib */,
+				D62B416918D61291002AB1F4 /* libharfbuzz.dylib */,
 				D6BC586716D538EA00529D3B /* libSDL.a */,
 				D6E6DD7216D2D2F9000A86FD /* CoreFoundation.framework */,
 				D6E6DD7416D2D2F9000A86FD /* CoreVideo.framework */,
@@ -5354,7 +5412,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PREFIX=\"/opt/local\"\n# uncomment the line below to use static libraries compiled yourself via the standard\n# procedure configure/make/make install .\n# PREFIX=\"`grep '^prefix=' config.mak | sed -e 's/prefix=//g'`\"\nexport PREFIX\n\nbuild_master_object () {\n\tARCH=\"$1\"\n\tDEST=\"$2\"\n\tTFILES=\"\"\n\tFFILES=\"\"\n\t# make sure the derived files directory exists\n\tmkdir -p \"${DERIVED_FILE_DIR}\"\n\t# check if the link file list (${DEST}) contains files that haven't been created yet.\n\t# this can be the case the very 1st time a project is built (after a clean)\n\tfor f in `cat ${DEST}` ;do\n\t\tif [ ! -r \"${f}\" ] ;then\n\t\t\t# \"future file ...\"\n\t\t\tFFILES=\"${FFILES} ${f}\"\n\t\tfi\n\tdone\n\tif [ \"${FFILES}\" != \"\" ] ;then\n\t\t# object files are references that don't exist already;\n\t\t# move aside the linklist file for future reference\n\t\tmv \"${DEST}\" \"${DEST}\".bak\n\tfi\n\tfor l in libavcodec libavformat libswresample ;do\n\t\tTFILE=\"${DERIVED_FILE_DIR}/${l}-${ARCH}.a\"\n\t\tif [ -r ${PREFIX}/lib/${l}.a ] ;then\n\t\t\tprintf \"${TFILE} \"\n\t\t\tTFILES=\"${TFILES} ${TFILE}\"\n\t\t\t# attempt to extract the static archive for the requested architecture\n\t\t\tlipo ${PREFIX}/lib/${l}.a -thin ${ARCH} -output ${TFILE}\n\t\t\tif [ $? != 0 ] ;then\n\t\t\t\t# failure, so copy the library as it is already in the right format\n\t\t\t\tcp ${PREFIX}/lib/${l}.a ${TFILE}\n\t\t\tfi\n\t\t\t# extract log2_tab.o - we'll only keep the one in libavutil.a\n\t\t\tar d ${TFILE} log2_tab.o 2>&1\n\t\t\t# add the archive name to the list of objects to be linked\n\t\t\techo ${TFILE} >> ${DEST}\n\t\tfi\n\tdone\n\tfor l in libavdevice libavfilter libavutil libpostproc libswscale ;do\n\t\tTFILE=\"${DERIVED_FILE_DIR}/${l}-${ARCH}.a\"\n\t\tif [ -r ${PREFIX}/lib/${l}.a ] ;then\n\t\t\tprintf \"${TFILE} \"\n\t\t\tTFILES=\"${TFILES} ${TFILE}\"\n\t\t\tlipo ${PREFIX}/lib/${l}.a -extract ${ARCH} -output ${TFILE}\n\t\t\tif [ $? != 0 ] ;then\n\t\t\t\tcp ${PREFIX}/lib/${l}.a ${TFILE}\n\t\t\tfi\n\t\t\techo ${TFILE} >> ${DEST}\n\t\tfi\n\tdone\n\tprintf \"\\n\"\n\tld -r -arch ${ARCH} -filelist ${DEST} -o ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.o -all_load\n\tif [ $? = 0 ] ;then\n\t\trm ${TFILES}\n\t\tif [ -r \"${DEST}\".bak ] ;then\n\t\t\tmv \"${DEST}\".bak \"${DEST}\"\n\t\telse\n\t\t\trm \"${DEST}\"\n\t\tfi\n\t\techo ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.o >> ${DEST}\n\t\tcp -p ${DEST} ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.LinkFileList\n\t\tprintf \"Created ${ARCH} master object file ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.o\\n\"\n\tfi\n}\n\nif [ \"${LINK_FILE_LIST_normal_i386}\" != \"\" ] ;then\n\tbuild_master_object \"i386\" \"${LINK_FILE_LIST_normal_i386}\"\nfi\nif [ \"${LINK_FILE_LIST_normal_x86_64}\" != \"\" ] ;then\n\tbuild_master_object \"x86_64\" \"${LINK_FILE_LIST_normal_x86_64}\"\nfi\n#printenv | fgrep build";
+			shellScript = "PREFIX=\"/opt/local\"\n# uncomment the line below to use static libraries compiled yourself via the standard\n# procedure configure/make/make install .\n# PREFIX=\"`grep '^prefix=' config.mak | sed -e 's/prefix=//g'`\"\nexport PREFIX\n\nbuild_master_object () {\n\tARCH=\"$1\"\n\tDEST=\"$2\"\n\tTFILES=\"\"\n\tFFILES=\"\"\n\t# make sure the derived files directory exists\n\tmkdir -p \"${DERIVED_FILE_DIR}\"\n\t# check if the link file list (${DEST}) contains files that haven't been created yet.\n\t# this can be the case the very 1st time a project is built (after a clean)\n\tfor f in `cat ${DEST}` ;do\n\t\tif [ ! -r \"${f}\" ] ;then\n\t\t\t# \"future file ...\"\n\t\t\tFFILES=\"${FFILES} ${f}\"\n\t\tfi\n\tdone\n\tif [ \"${FFILES}\" != \"\" ] ;then\n\t\t# object files are references that don't exist already;\n\t\t# move aside the linklist file for future reference\n\t\tmv \"${DEST}\" \"${DEST}\".bak\n\tfi\n\tfor l in libavcodec libavformat libswresample ;do\n\t\tTFILE=\"${DERIVED_FILE_DIR}/${l}-${ARCH}.a\"\n\t\tif [ -r ${PREFIX}/lib/${l}.a ] ;then\n\t\t\tprintf \"${TFILE} \"\n\t\t\tTFILES=\"${TFILES} ${TFILE}\"\n\t\t\t# attempt to extract the static archive for the requested architecture\n\t\t\tlipo ${PREFIX}/lib/${l}.a -thin ${ARCH} -output ${TFILE}\n\t\t\tif [ $? != 0 ] ;then\n\t\t\t\t# failure, so copy the library as it is already in the right format\n\t\t\t\tcp ${PREFIX}/lib/${l}.a ${TFILE}\n\t\t\tfi\n\t\t\t# extract log2_tab.o - we'll only keep the one in libavutil.a\n\t\t\tar d ${TFILE} log2_tab.o 2>&1\n\t\t\t# add the archive name to the list of objects to be linked\n\t\t\techo ${TFILE} >> ${DEST}\n\t\tfi\n\tdone\n\tfor l in libavdevice libavfilter libavutil libavresample libpostproc libswscale ;do\n\t\tTFILE=\"${DERIVED_FILE_DIR}/${l}-${ARCH}.a\"\n\t\tif [ -r ${PREFIX}/lib/${l}.a ] ;then\n\t\t\tprintf \"${TFILE} \"\n\t\t\tTFILES=\"${TFILES} ${TFILE}\"\n\t\t\tlipo ${PREFIX}/lib/${l}.a -extract ${ARCH} -output ${TFILE}\n\t\t\tif [ $? != 0 ] ;then\n\t\t\t\tcp ${PREFIX}/lib/${l}.a ${TFILE}\n\t\t\tfi\n\t\t\techo ${TFILE} >> ${DEST}\n\t\tfi\n\tdone\n\tprintf \"\\n\"\n\tld -r -arch ${ARCH} -filelist ${DEST} -o ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.o -all_load\n\tif [ $? = 0 ] ;then\n\t\trm ${TFILES}\n\t\tif [ -r \"${DEST}\".bak ] ;then\n\t\t\tmv \"${DEST}\".bak \"${DEST}\"\n\t\telse\n\t\t\trm \"${DEST}\"\n\t\tfi\n\t\techo ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.o >> ${DEST}\n\t\tcp -p ${DEST} ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.LinkFileList\n\t\tprintf \"Created ${ARCH} master object file ${DERIVED_FILE_DIR}/FFmpeg-master-${ARCH}.o\\n\"\n\tfi\n}\n\nif [ \"${LINK_FILE_LIST_normal_i386}\" != \"\" ] ;then\n\tbuild_master_object \"i386\" \"${LINK_FILE_LIST_normal_i386}\"\nfi\nif [ \"${LINK_FILE_LIST_normal_x86_64}\" != \"\" ] ;then\n\tbuild_master_object \"x86_64\" \"${LINK_FILE_LIST_normal_x86_64}\"\nfi\n#printenv | fgrep build";
 			showEnvVarsInLog = 0;
 		};
 		D6BC585916D537C800529D3B /* InstallMasterLinkFile */ = {
@@ -5632,6 +5690,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
+					"\"$(SRCROOT)/../../../../../../MacPorts/lib\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -5675,6 +5734,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
+					"\"$(SRCROOT)/../../../../../../MacPorts/lib\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
